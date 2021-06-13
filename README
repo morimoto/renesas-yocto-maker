@@ -1,0 +1,26 @@
+============== -*- outline -*- ==============
+
+              renesas-yocto-maker
+
+2021/06/11	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+=============================================
+
+* なにこれ？
+
+	Renesas 用 Yocto からリリース用のバイナリとソースを作り出すスクリプト。
+	それって Yocto の意味無くない？　とかは言いっこなし。　いろいろあるんです
+
+* ライセンス
+
+	GPL v2
+
+* 使い方
+
+	yocto-make-vX.Y.Z [-b]  [-s] target
+
+	-b	: create yocto-vX.Y.Z-${target}-${date}-bin.tar.bz2
+	-r	: create yocto-vX.Y.Z-${target}-${date}-src.tar.bz2
+	target	: create target. depends on each versions
+
+	例)
+		yocto-v5.1.0 -b -s h3ulcb
