@@ -16,11 +16,18 @@
 
 * 使い方
 
-	yocto-make-vX.Y.Z [-b]  [-s] target
+	yocto-make-vX.Y.Z [-b] [-s] [-e] target
 
 	-b	: create yocto-vX.Y.Z-${target}-${date}-bin.tar.bz2
-	-r	: create yocto-vX.Y.Z-${target}-${date}-src.tar.bz2
+	-s	: create yocto-vX.Y.Z-${target}-${date}-src.tar.bz2
+	-e	: create yocto-vX.Y.Z-${target}-${date}-env.tar.bz2
 	target	: create target. depends on each versions
 
 	例)
 		yocto-v5.1.0 -b -s h3ulcb
+
+**  注意
+
+	新バージョンリリース時等に build を使い回す事はできるが、
+	-b, -s, -e を指定すると余計なものを含めてしまう可能性がある。
+	少なくとも build/tmp/deploy 以下は消しておいた方が無難

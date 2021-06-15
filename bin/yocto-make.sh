@@ -9,9 +9,11 @@ COMMIT_POKY=$P
 COMMIT_OPENEMBEDDED=$O
 COMMIT_RENESAS=$R
 CONF_PATH=$B
+ARCH_MODE=patched # original  patched  configured
 
 [ x${NAME_BIN} != x -a -f ${NAME_BIN}.tar.bz2 ] && echo "${NAME_BIN}.tar.bz2 already exist" && exit
 [ x${NAME_SRC} != x -a -f ${NAME_SRC}.tar.bz2 ] && echo "${NAME_SRC}.tar.bz2 already exist" && exit
+[ x${NAME_ENV} != x -a -f ${NAME_ENV}.tar.bz2 ] && echo "${NAME_ENV}.tar.bz2 already exist" && exit
 
 if [ x${COMMIT_POKY}		= x	-o\
      x${COMMIT_OPENEMBEDDED}	= x	-o\
@@ -46,10 +48,29 @@ if [ ! -d  meta-renesas/${CONF_PATH} ]; then
 	exit
 fi
 
+grep -w "INHERIT" meta-renesas/${CONF_PATH}/local.conf > /dev/null
+if [ $? = 0 ]; then
+	echo "unexpected: renesas local.conf has INHERIT!"
+	exit
+fi
+
+grep -w "ARCHIVER_MODE" meta-renesas/${CONF_PATH}/local.conf > /dev/null
+if [ $? = 0 ]; then
+	echo "unexpected: renesas local.conf has ARCHIVER_MODE!"
+	exit
+fi
+
 (
 	. poky/oe-init-build-env
 
 	cp ../meta-renesas/${CONF_PATH}/*.conf ./conf/
+
+	if [ x${NAME_SRC} != x ]; then
+		echo						>> ./conf/local.conf
+		echo "# added by renesas-yocto-maker"		>> ./conf/local.conf
+		echo "INHERIT += \"archiver\""			>> ./conf/local.conf
+		echo "ARCHIVER_MODE[src] = \"$ARCH_MODE\""	>> ./conf/local.conf
+	fi
 
 	bitbake core-image-minimal
 )
@@ -64,13 +85,27 @@ fi
 
 if [ x${NAME_SRC} != x ]; then
 	echo create ${NAME_SRC}
-	mkdir -p ${NAME_SRC}/build
-	ln -s ../../build/conf		${NAME_SRC}/build
-	ln -s ../../build/downloads	${NAME_SRC}/build
-	ln -s ../meta-openembedded	${NAME_SRC}
-	ln -s ../meta-renesas		${NAME_SRC}
-	ln -s ../poky			${NAME_SRC}
+
+	if [ x$ARCH_MODE = xoriginal ]; then
+		ln -s build/tmp/deploy/sources	${NAME_SRC}
+	else
+		mkdir ${NAME_SRC}
+		SRC=`find build/tmp/deploy/sources/ | grep ${ARCH_MODE}`
+		cp ${SRC} ${NAME_SRC}
+	fi
 
 	tar -jchf ${NAME_SRC}.tar.bz2 ${NAME_SRC}
 	rm -fr ${NAME_SRC}
+fi
+
+if [ x${NAME_ENV} != x ]; then
+	echo create ${NAME_ENV}
+	mkdir -p ${NAME_ENV}/build
+	ln -s ../../build/conf		${NAME_ENV}/build
+	ln -s ../../build/downloads	${NAME_ENV}/build
+	ln -s ../meta-openembedded	${NAME_ENV}
+	ln -s ../meta-renesas		${NAME_ENV}
+	ln -s ../poky			${NAME_ENV}
+	tar -jchf ${NAME_ENV}.tar.bz2	${NAME_ENV}
+	rm -fr ${NAME_ENV}
 fi
