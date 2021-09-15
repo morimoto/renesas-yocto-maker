@@ -1,0 +1,169 @@
+#! /bin/bash
+#===============================
+#
+# yocto-make
+#
+# 2021/06/10 Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+#===============================
+TOP=`readlink -f "$0" | xargs dirname`
+
+get_params() {
+	while getopts bse OPT
+	do
+		case $OPT in
+			b) NAME_BIN=1;;
+			s) NAME_SRC=1;;
+			e) NAME_ENV=1;;
+			*) exit 1;;
+		esac
+	done
+	shift $(expr $OPTIND - 1)
+
+	VER=$1
+	TARGET=$2
+
+	# remove all parameter
+	shift 2
+
+	DATE=`date +%Y%m%d`
+	[ x$NAME_BIN != x ] && NAME_BIN="yocto-${VER}-${TARGET}-${DATE}-bin"
+	[ x$NAME_SRC != x ] && NAME_SRC="yocto-${VER}-${TARGET}-${DATE}-src"
+	[ x$NAME_ENV != x ] && NAME_ENV="yocto-${VER}-${TARGET}-${DATE}-env"
+
+	[ x${NAME_BIN} != x -a -f ${NAME_BIN}.tar.bz2 ] && echo "${NAME_BIN}.tar.bz2 already exist" && exit
+	[ x${NAME_SRC} != x -a -f ${NAME_SRC}.tar.bz2 ] && echo "${NAME_SRC}.tar.bz2 already exist" && exit
+	[ x${NAME_ENV} != x -a -f ${NAME_ENV}.tar.bz2 ] && echo "${NAME_ENV}.tar.bz2 already exist" && exit
+
+	COMMIT_POKY=`        grep "^${VER}_P" ${TOP}/scripts/version | sed -e "s/^${VER}_P=//g"`
+	COMMIT_OPENEMBEDDED=`grep "^${VER}_O" ${TOP}/scripts/version | sed -e "s/^${VER}_O=//g"`
+	COMMIT_RENESAS=`     grep "^${VER}_R" ${TOP}/scripts/version | sed -e "s/^${VER}_R=//g"`
+	LIST=`               grep "^${VER}_L" ${TOP}/scripts/version | sed -e "s/^${VER}_L=//g"`
+	CONF_PATH=meta-rcar-gen3/docs/sample/conf/${TARGET}/poky-gcc/bsp
+	ARCH_MODE=patched # original  patched  configured
+
+	if [ x${VER}			= x	-o\
+	     x${TARGET}			= x	-o\
+	     x${COMMIT_POKY}		= x	-o\
+	     x${COMMIT_OPENEMBEDDED}	= x	-o\
+	     x${COMMIT_RENESAS}		= x	-o\
+	     x${CONF_PATH}		= x ]; then
+		echo "parameter error"
+		exit
+	fi
+
+	# TARGET check
+	for l in ${LIST}
+	do
+		if [ x${l} = x${TARGET} ]; then
+			return
+		fi
+	done
+
+	echo "${TARGET} is not supported"
+	echo
+	echo "supported boards are..."
+	echo " ${LIST}"
+	exit
+}
+
+target_clone() {
+	[ ! -d poky ]			&& git clone git://git.yoctoproject.org/poky
+	[ ! -d meta-openembedded ]	&& git clone git://git.openembedded.org/meta-openembedded
+	[ ! -d meta-renesas ]		&& git clone git://github.com/renesas-rcar/meta-renesas.git
+}
+
+target_checkout() {
+	(
+		cd ${1}
+		git remote update --prune
+		git checkout ${2}
+		if [ $? != 0 ]; then
+			echo "${1} checkout error"
+			exit
+		fi
+	)
+}
+
+conf_path_check() {
+
+	if [ ! -d  meta-renesas/${CONF_PATH} ]; then
+		echo "no ${CONF_PATH} at renesas"
+		exit
+	fi
+
+	grep -w "INHERIT" meta-renesas/${CONF_PATH}/local.conf > /dev/null
+	if [ $? = 0 ]; then
+		echo "unexpected: renesas local.conf has INHERIT!"
+		exit
+	fi
+
+	grep -w "ARCHIVER_MODE" meta-renesas/${CONF_PATH}/local.conf > /dev/null
+	if [ $? = 0 ]; then
+		echo "unexpected: renesas local.conf has ARCHIVER_MODE!"
+		exit
+	fi
+}
+
+target_build() {
+	(
+		. poky/oe-init-build-env
+
+		cp ../meta-renesas/${CONF_PATH}/*.conf ./conf/
+
+		if [ x${NAME_SRC} != x ]; then
+			echo						>> ./conf/local.conf
+			echo "# added by renesas-yocto-maker"		>> ./conf/local.conf
+			echo "INHERIT += \"archiver\""			>> ./conf/local.conf
+			echo "ARCHIVER_MODE[src] = \"$ARCH_MODE\""	>> ./conf/local.conf
+		fi
+
+		bitbake core-image-minimal
+	)
+	[ x$? != x0 ] && exit
+}
+
+run_option() {
+
+	if [ x${NAME_BIN} != x ]; then
+		echo create ${NAME_BIN}
+		ln -s build/tmp/deploy/images/${TARGET} ${NAME_BIN}
+		tar -jchf ${NAME_BIN}.tar.bz2 ${NAME_BIN}
+		rm ${NAME_BIN}
+	fi
+
+	if [ x${NAME_SRC} != x ]; then
+		echo create ${NAME_SRC}
+
+		if [ x$ARCH_MODE = xoriginal ]; then
+			ln -s build/tmp/deploy/sources	${NAME_SRC}
+		else
+			mkdir ${NAME_SRC}
+			SRC=`find build/tmp/deploy/sources/ | grep ${ARCH_MODE}`
+			cp ${SRC} ${NAME_SRC}
+		fi
+
+		tar -jchf ${NAME_SRC}.tar.bz2 ${NAME_SRC}
+		rm -fr ${NAME_SRC}
+	fi
+
+	if [ x${NAME_ENV} != x ]; then
+		echo create ${NAME_ENV}
+		mkdir -p ${NAME_ENV}/build
+		ln -s ../../build/conf		${NAME_ENV}/build
+		ln -s ../../build/downloads	${NAME_ENV}/build
+		ln -s ../meta-openembedded	${NAME_ENV}
+		ln -s ../meta-renesas		${NAME_ENV}
+		ln -s ../poky			${NAME_ENV}
+		tar -jchf ${NAME_ENV}.tar.bz2	${NAME_ENV}
+		rm -fr ${NAME_ENV}
+	fi
+}
+
+get_params $@
+target_clone
+target_checkout poky			${COMMIT_POKY}
+target_checkout meta-openembedded	${COMMIT_OPENEMBEDDED}
+target_checkout meta-renesas		${COMMIT_RENESAS}
+conf_path_check
+target_build
+run_option

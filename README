@@ -29,15 +29,16 @@
 
 * How to use ?
 
-	yocto-make-vX.Y.Z [-b] [-s] [-e] target
+	yocto-make [-b] [-s] [-e] version target
 
-	-b	: create yocto-vX.Y.Z-${target}-${date}-bin.tar.bz2
-	-s	: create yocto-vX.Y.Z-${target}-${date}-src.tar.bz2
-	-e	: create yocto-vX.Y.Z-${target}-${date}-env.tar.bz2
+	-b	: create yocto-${version}-${target}-${date}-bin.tar.bz2
+	-s	: create yocto-${version}-${target}-${date}-src.tar.bz2
+	-e	: create yocto-${version}-${target}-${date}-env.tar.bz2
+	version	: 5.1.0
 	target	: create target. depends on each versions
 
 	ex)
-		yocto-v5.1.0 -b -s h3ulcb
+		yocto-make -b -s 5.1.0 h3ulcb
 
 **  Note
 

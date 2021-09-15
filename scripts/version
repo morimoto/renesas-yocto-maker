@@ -1,0 +1,9 @@
+# ver_P : poky
+# ver_O : meta-openembedded
+# ver_R : meta-renesas
+# ver_L : supported board list
+
+5.1.0_P=424296bf9bb4bae27febf91bce0118df09ce5fa1
+5.1.0_O=f2d02cb71eaff8eb285a1997b30be52486c160ae
+5.1.0_R=50a26c636a0a6fdbb1b92db5985a855bea64fa38
+5.1.0_L=draak  ebisu  h3ulcb  m3nulcb  m3ulcb
