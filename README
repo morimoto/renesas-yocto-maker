@@ -5,20 +5,26 @@
 2021/06/11	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 =============================================
 
+----------------------
 * What is this ?
+----------------------
 
 	When you get Renesas BSP, it is difficult to understand
 	what you need to do to use it. This is one of helper for it.
 	This helps you to compile Yocto for you.
 
+----------------------
 * Note
+----------------------
 
 	This is *Un Official* Tool.
 	        ^^^^^^^^^^^^^^^^^^^
 	Contributor never take responsibility even though some issue happen.
 	            ^^^^^^^^^^^^^^^^^^^^^^^^^
 
+----------------------
 * License ?
+----------------------
 
 	Copyright (C) 2021 Renesas Electronics Corp.
 	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
@@ -27,7 +33,9 @@
 	it under the terms of the GNU General Public License version 2 as
 	published by the Free Software Foundation.
 
+----------------------
 * How to use ?
+----------------------
 
 	yocto-make [-b] [-s] [-e] version target
 
@@ -45,3 +53,12 @@
 	We can reuse the "build" when new version was released.
 	But, something strange might be included if -b, -s, -e options were used.
 	Removing build/tmp/deploy is better idea.
+
+----------------------
+* How to flash to board ?
+----------------------
+
+	You can use renesas-bsp-rom-writer
+
+		https://github.com/morimoto/renesas-bsp-rom-writer
+		https://gitlab.com/morimoto.kuninori/renesas-bsp-rom-writer
