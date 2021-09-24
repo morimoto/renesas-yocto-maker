@@ -67,9 +67,12 @@ get_params() {
 }
 
 target_clone() {
-	[ ! -d poky ]			&& git clone git://git.yoctoproject.org/poky
-	[ ! -d meta-openembedded ]	&& git clone git://git.openembedded.org/meta-openembedded
-	[ ! -d meta-renesas ]		&& git clone git://github.com/renesas-rcar/meta-renesas.git
+	[ ! -d poky ]			&& git clone git://git.yoctoproject.org/poky &
+	[ ! -d meta-openembedded ]	&& git clone git://git.openembedded.org/meta-openembedded &
+	[ ! -d meta-renesas ]		&& git clone git://github.com/renesas-rcar/meta-renesas.git &
+
+	# Wait for all clone operations
+	wait
 }
 
 target_checkout() {
