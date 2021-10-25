@@ -108,12 +108,12 @@ conf_path_check() {
 }
 
 target_build() {
-	grep ${VER}   ${TOP}/build/renesas-version 2>/dev/null
-	[ $? != 0 ] && echo "removing previous build/tmp" && rm -fr build/tmp
-	echo ${VER} > ${TOP}/build/renesas-version
-
 	(
 		. poky/oe-init-build-env
+
+		grep ${VER}   ${TOP}/build/renesas-version 2>/dev/null
+		[ $? != 0 ] && echo "removing previous build/tmp" && rm -fr build/tmp
+		echo ${VER} > ${TOP}/build/renesas-version
 
 		cp ../meta-renesas/${CONF_PATH}/*.conf ./conf/
 
