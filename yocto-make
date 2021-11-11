@@ -14,7 +14,7 @@ get_params() {
 			b) NAME_BIN=1;;
 			s) NAME_SRC=1;;
 			e) NAME_ENV=1;;
-			*) exit 1;;
+			*) ${TOP}/scripts/help.sh && exit 1;;
 		esac
 	done
 	shift $(expr $OPTIND - 1)
@@ -47,7 +47,7 @@ get_params() {
 	     x${COMMIT_OPENEMBEDDED}	= x	-o\
 	     x${COMMIT_RENESAS}		= x	-o\
 	     x${CONF_PATH}		= x ]; then
-		echo "parameter error"
+		${TOP}/scripts/help.sh
 		exit
 	fi
 
