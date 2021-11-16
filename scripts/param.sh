@@ -14,6 +14,10 @@ error() {
 	echo
 }
 
+get_param() {
+	grep "^${1}" ${TOP}/scripts/version | cut -d = -f 2
+}
+
 while getopts bse OPT
 do
 	case $OPT in
@@ -48,7 +52,7 @@ if [ $? != 0 ]; then
 fi
 
 # TARGET check
-LIST=`grep ^${VER}_L ${TOP}/scripts/version | cut -d = -f 2`
+LIST=`get_param "${VER}_L"`
 echo ${LIST} | grep -w ${TARGET} 1>/dev/null 2>&1
 if [ $? != 0 ]; then
 	error "\"${TARGET}\" is not supported board"

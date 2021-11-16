@@ -9,9 +9,9 @@
 TOP=`readlink -f "$0" | xargs dirname | xargs dirname`
 . ${TOP}/scripts/param.sh
 
-COMMIT_POKY=`        grep "^${VER}_P" ${TOP}/scripts/version | sed -e "s/^${VER}_P=//g"`
-COMMIT_OPENEMBEDDED=`grep "^${VER}_O" ${TOP}/scripts/version | sed -e "s/^${VER}_O=//g"`
-COMMIT_RENESAS=`     grep "^${VER}_R" ${TOP}/scripts/version | sed -e "s/^${VER}_R=//g"`
+COMMIT_POKY=`        get_param "${VER}_P"`
+COMMIT_OPENEMBEDDED=`get_param "${VER}_O"`
+COMMIT_RENESAS=`     get_param "${VER}_R"`
 
 target_clone() {
 	[ ! -d poky ]			&& git clone git://git.yoctoproject.org/poky &
