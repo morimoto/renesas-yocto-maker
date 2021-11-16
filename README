@@ -42,11 +42,13 @@
 * How to use ?
 ----------------------
 
-	yocto-make [-b] [-s] [-e] version target
+	yocto-make [-bsea] version target
 
 	-b	: create yocto-${version}-${target}-${date}-bin.tar.bz2
 	-s	: create yocto-${version}-${target}-${date}-src.tar.bz2
 	-e	: create yocto-${version}-${target}-${date}-env.tar.bz2
+	-a	: Enable ADAS if target board is supporting it.
+		  see below "ADAS"
 	version	: 5.5.0
 		  5.1.0
 		  4.7.0
@@ -61,6 +63,10 @@
 	We can reuse the "build" when new version was released.
 	But, something strange might be included if -b, -s, -e options were used.
 	Removing build/tmp/deploy is better idea.
+
+** ADAS
+
+	-a option is enabled if it was for StarterKit/Kingfisher for now.
 
 ----------------------
 * How to flash to board ?

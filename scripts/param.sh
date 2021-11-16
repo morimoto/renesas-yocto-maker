@@ -18,12 +18,13 @@ get_param() {
 	grep "^${1}" ${TOP}/scripts/version | cut -d = -f 2
 }
 
-while getopts bse OPT
+while getopts bsea OPT
 do
 	case $OPT in
 		b) NAME_BIN=1;;
 		s) NAME_SRC=1;;
 		e) NAME_ENV=1;;
+		a) FLAG_ADAS=1;;
 		*) ${TOP}/scripts/help.sh && exit 1;;
 	esac
 done
@@ -60,5 +61,11 @@ if [ $? != 0 ]; then
 	echo "supported boards for ${VER} are..."
 	echo " ${LIST}"
 	echo
+	exit 1
+fi
+
+# ADAS check
+if [[ x${FLAG_ADAS} = x1 && ! ${TARGET} =~ "ulcb" ]]; then
+	error "${TARGET} can't use -a (ADAS) option "
 	exit 1
 fi

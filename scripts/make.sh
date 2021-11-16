@@ -9,9 +9,11 @@
 TOP=`readlink -f "$0" | xargs dirname | xargs dirname`
 . ${TOP}/scripts/param.sh
 
-[ x$NAME_BIN != x ] && NAME_BIN="yocto-${VER}-${TARGET}-${DATE}-bin"
-[ x$NAME_SRC != x ] && NAME_SRC="yocto-${VER}-${TARGET}-${DATE}-src"
-[ x$NAME_ENV != x ] && NAME_ENV="yocto-${VER}-${TARGET}-${DATE}-env"
+[ x${FLAG_ADAS} != x ] && ADAS="-adas"
+
+[ x$NAME_BIN != x ] && NAME_BIN="yocto-${VER}-${TARGET}${ADAS}-${DATE}-bin"
+[ x$NAME_SRC != x ] && NAME_SRC="yocto-${VER}-${TARGET}${ADAS}-${DATE}-src"
+[ x$NAME_ENV != x ] && NAME_ENV="yocto-${VER}-${TARGET}${ADAS}-${DATE}-env"
 
 [ x${NAME_BIN} != x -a -f ${NAME_BIN}.tar.bz2 ] && echo "${NAME_BIN}.tar.bz2 already exist" && exit 1
 [ x${NAME_SRC} != x -a -f ${NAME_SRC}.tar.bz2 ] && echo "${NAME_SRC}.tar.bz2 already exist" && exit 1
@@ -44,11 +46,15 @@ target_build() {
 	(
 		. poky/oe-init-build-env
 
-		grep ${VER}   ${TOP}/build/renesas-version 2>/dev/null
+		grep ${VER}${ADAS}   ${TOP}/build/renesas-version 2>/dev/null
 		[ $? != 0 ] && echo "removing previous build/tmp" && rm -fr build/tmp
-		echo ${VER} > ${TOP}/build/renesas-version
+		echo ${VER}${ADAS} > ${TOP}/build/renesas-version
 
 		cp ../meta-renesas/${META_BSP}/*.conf ./conf/
+
+		if [ x${FLAG_ADAS} != x ]; then
+			bitbake-layers add-layer ../meta-rcar/meta-rcar-gen3-adas
+		fi
 
 		if [ x${NAME_SRC} != x ]; then
 			echo						>> ./conf/local.conf
@@ -93,6 +99,9 @@ run_option() {
 		ln -s ../../build/downloads	${NAME_ENV}/build
 		ln -s ../meta-openembedded	${NAME_ENV}
 		ln -s ../meta-renesas		${NAME_ENV}
+		if [ x${FLAG_ADAS} != x ]; then
+			ln -s ../meta-rcar	${NAME_ENV}
+		fi
 		ln -s ../poky			${NAME_ENV}
 		tar -jchf ${NAME_ENV}.tar.bz2	${NAME_ENV}
 		rm -fr ${NAME_ENV}
