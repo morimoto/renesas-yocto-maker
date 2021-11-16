@@ -49,6 +49,8 @@
 	-e	: create yocto-${version}-${target}-${date}-env.tar.bz2
 	version	: 5.5.0
 		  5.1.0
+		  4.7.0
+		  4.1.0
 	target	: create target. depends on each versions
 
 	ex)
