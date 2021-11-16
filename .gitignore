@@ -2,3 +2,5 @@
 /meta-*
 /poky/
 /yocto-*.tar.bz2
+/package/*/*.zip
+/package/*/unzip

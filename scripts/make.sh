@@ -10,16 +10,19 @@ TOP=`readlink -f "$0" | xargs dirname | xargs dirname`
 . ${TOP}/scripts/param.sh
 
 [ x${FLAG_ADAS} != x ] && ADAS="-adas"
+[ x${FLAG_MMP}  != x ] && MMP="-mmp"
 
-[ x$NAME_BIN != x ] && NAME_BIN="yocto-${VER}-${TARGET}${ADAS}-${DATE}-bin"
-[ x$NAME_SRC != x ] && NAME_SRC="yocto-${VER}-${TARGET}${ADAS}-${DATE}-src"
-[ x$NAME_ENV != x ] && NAME_ENV="yocto-${VER}-${TARGET}${ADAS}-${DATE}-env"
+[ x${NAME_BIN} != x ] && NAME_BIN="yocto-${VER}-${TARGET}${ADAS}${MMP}-${DATE}-bin"
+[ x${NAME_SRC} != x ] && NAME_SRC="yocto-${VER}-${TARGET}${ADAS}${MMP}-${DATE}-src"
+[ x${NAME_ENV} != x ] && NAME_ENV="yocto-${VER}-${TARGET}${ADAS}${MMP}-${DATE}-env"
 
 [ x${NAME_BIN} != x -a -f ${NAME_BIN}.tar.bz2 ] && echo "${NAME_BIN}.tar.bz2 already exist" && exit 1
 [ x${NAME_SRC} != x -a -f ${NAME_SRC}.tar.bz2 ] && echo "${NAME_SRC}.tar.bz2 already exist" && exit 1
 [ x${NAME_ENV} != x -a -f ${NAME_ENV}.tar.bz2 ] && echo "${NAME_ENV}.tar.bz2 already exist" && exit 1
 
 META_BSP=meta-rcar-gen3/docs/sample/conf/${TARGET}/poky-gcc/bsp
+META_MMP=meta-rcar-gen3/docs/sample/conf/${TARGET}/poky-gcc/mmp
+
 ARCH_MODE=patched # original  patched  configured
 
 conf_path_check() {
@@ -42,15 +45,52 @@ conf_path_check() {
 	fi
 }
 
+unpack_mmp() {
+	COPY_SCRIPT="${TOP}/meta-renesas/meta-rcar-gen3/docs/sample/copyscript/copy_evaproprietary_softwares.sh"
+	DIR=${TOP}/package/${VER}/unzip
+
+	if [ ! -f ${COPY_SCRIPT} ]; then
+		error "scripts to copy drivers for Gen3 not found."
+		exit 1
+	fi
+
+	if [ ! -d ${TOP}/package/${VER}/unzip ]; then
+		ZIP=`get_param "${VER}_M"`
+		(
+			mkdir -p ${DIR}
+			cd       ${DIR}
+			for zip in ${ZIP}
+			do
+				unzip -o ../${zip}
+			done
+		)
+	fi
+
+	(
+		cd ${TOP}/meta-renesas/
+		${COPY_SCRIPT} -d -f ${DIR}
+	)
+	[ x$? != x0 ] && exit
+
+	cp ../meta-renesas/${META_MMP}/*.conf ./conf/
+	cp ./conf/local-wayland.conf ./conf/local.conf
+}
+
 target_build() {
 	(
 		. poky/oe-init-build-env
 
-		grep ${VER}${ADAS}   ${TOP}/build/renesas-version 2>/dev/null
+		grep ${VER}${ADAS}${MMP}   ${TOP}/build/renesas-version 2>/dev/null
 		[ $? != 0 ] && echo "removing previous build/tmp" && rm -fr build/tmp
-		echo ${VER}${ADAS} > ${TOP}/build/renesas-version
+		echo ${VER}${ADAS}${MMP} > ${TOP}/build/renesas-version
 
+		IMAGE=minimal
 		cp ../meta-renesas/${META_BSP}/*.conf ./conf/
+
+		if [ x${FLAG_MMP} != x ]; then
+			unpack_mmp
+			IMAGE=weston
+		fi
 
 		if [ x${FLAG_ADAS} != x ]; then
 			bitbake-layers add-layer ../meta-rcar/meta-rcar-gen3-adas
@@ -63,7 +103,7 @@ target_build() {
 			echo "ARCHIVER_MODE[src] = \"$ARCH_MODE\""	>> ./conf/local.conf
 		fi
 
-		bitbake core-image-minimal
+		bitbake core-image-${IMAGE}
 	)
 	[ x$? != x0 ] && exit
 }

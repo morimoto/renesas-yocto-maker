@@ -3,18 +3,21 @@
 # ver_R : meta-renesas
 # ver_C : meta-rcar
 # ver_L : supported board list
+# ver_M : necessary zip file for MMP support
 
 5.5.0_P=6ebb33bdaccaeadff0c85aab27acf35723df00d8
 5.5.0_O=c38d2a74f762a792046f3d3c377827b08aade513
 5.5.0_R=0fe77668f5d9a31a5d10449988c3d8fb8dc475c5
 5.5.0_C=v5.5.0
 5.5.0_L=draak  ebisu  h3ulcb  m3nulcb  m3ulcb
+5.5.0_M=R-Car_Gen3_Series_Evaluation_Software_Package_for_Linux-20210921.zip R-Car_Gen3_Series_Evaluation_Software_Package_of_Linux_Drivers-20210921.zip
 
 5.1.0_P=424296bf9bb4bae27febf91bce0118df09ce5fa1
 5.1.0_O=f2d02cb71eaff8eb285a1997b30be52486c160ae
 5.1.0_R=50a26c636a0a6fdbb1b92db5985a855bea64fa38
 5.1.0_C=v5.1.0
 5.1.0_L=draak  ebisu  h3ulcb  m3nulcb  m3ulcb
+5.1.0_M=R-Car_Gen3_Series_Evaluation_Software_Package_for_Linux-weston8-20210428.zip R-Car_Gen3_Series_Evaluation_Software_Package_of_Linux_Drivers-weston8-20210428.zip
 
 4.7.0_P=424296bf9bb4bae27febf91bce0118df09ce5fa1
 4.7.0_O=f2d02cb71eaff8eb285a1997b30be52486c160ae
