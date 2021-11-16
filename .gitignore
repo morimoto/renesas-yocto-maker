@@ -1,3 +1,4 @@
-build
-meta-*
-poky/
+/build
+/meta-*
+/poky/
+/yocto-*.tar.bz2
