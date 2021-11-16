@@ -17,23 +17,23 @@ TOP=`readlink -f "$0" | xargs dirname | xargs dirname`
 [ x${NAME_SRC} != x -a -f ${NAME_SRC}.tar.bz2 ] && echo "${NAME_SRC}.tar.bz2 already exist" && exit 1
 [ x${NAME_ENV} != x -a -f ${NAME_ENV}.tar.bz2 ] && echo "${NAME_ENV}.tar.bz2 already exist" && exit 1
 
-CONF_PATH=meta-rcar-gen3/docs/sample/conf/${TARGET}/poky-gcc/bsp
+META_BSP=meta-rcar-gen3/docs/sample/conf/${TARGET}/poky-gcc/bsp
 ARCH_MODE=patched # original  patched  configured
 
 conf_path_check() {
 
-	if [ ! -d  meta-renesas/${CONF_PATH} ]; then
-		echo "no ${CONF_PATH} at renesas"
+	if [ ! -d  meta-renesas/${META_BSP} ]; then
+		echo "no ${META_BSP} at renesas"
 		exit
 	fi
 
-	grep -w "INHERIT" meta-renesas/${CONF_PATH}/local.conf > /dev/null
+	grep -w "INHERIT" meta-renesas/${META_BSP}/local.conf > /dev/null
 	if [ $? = 0 ]; then
 		echo "unexpected: renesas local.conf has INHERIT!"
 		exit
 	fi
 
-	grep -w "ARCHIVER_MODE" meta-renesas/${CONF_PATH}/local.conf > /dev/null
+	grep -w "ARCHIVER_MODE" meta-renesas/${META_BSP}/local.conf > /dev/null
 	if [ $? = 0 ]; then
 		echo "unexpected: renesas local.conf has ARCHIVER_MODE!"
 		exit
@@ -48,7 +48,7 @@ target_build() {
 		[ $? != 0 ] && echo "removing previous build/tmp" && rm -fr build/tmp
 		echo ${VER} > ${TOP}/build/renesas-version
 
-		cp ../meta-renesas/${CONF_PATH}/*.conf ./conf/
+		cp ../meta-renesas/${META_BSP}/*.conf ./conf/
 
 		if [ x${NAME_SRC} != x ]; then
 			echo						>> ./conf/local.conf
