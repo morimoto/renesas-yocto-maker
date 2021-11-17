@@ -17,8 +17,8 @@ COMMIT_RCAR=`        get_param "${VER}_C"`
 target_clone() {
 	[ ! -d poky ]			&& git clone git://git.yoctoproject.org/poky &
 	[ ! -d meta-openembedded ]	&& git clone git://git.openembedded.org/meta-openembedded &
-	[ ! -d meta-renesas ]		&& git clone git://github.com/renesas-rcar/meta-renesas.git &
-	[ ! -d meta-rcar ]		&& git clone git://github.com/CogentEmbedded/meta-rcar.git &
+	[ ! -d meta-renesas ]		&& git clone https://github.com/renesas-rcar/meta-renesas.git &
+	[ ! -d meta-rcar ]		&& git clone https://github.com/CogentEmbedded/meta-rcar.git &
 
 	# Wait for all clone operations
 	wait
