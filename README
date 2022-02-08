@@ -62,7 +62,8 @@
 		  see below "ADAS"
 	-m	: Enable MMP if target board is supporting it.
 		  see below "MMP"
-	version	: 5.5.0
+	version	: 5.9.0
+		  5.5.0
 		  5.1.0
 		  4.7.0
 		  4.1.0

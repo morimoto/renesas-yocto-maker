@@ -5,6 +5,13 @@
 # ver_L : supported board list
 # ver_M : necessary zip file for MMP support
 
+5.9.0_P=74b22db6879b388d700f61e08cb3f239cf940d18
+5.9.0_O=814eec96c2a29172da57a425a3609f8b6fcc6afe
+5.9.0_R=13fd24957b9acc29a235ee0c7f398fd867f38b47
+5.9.0_C=v5.9.0
+5.9.0_L=draak  ebisu  h3ulcb  m3nulcb  m3ulcb
+5.9.0_M=R-Car_Gen3_Series_Evaluation_Software_Package_for_Linux-20220121.zip R-Car_Gen3_Series_Evaluation_Software_Package_of_Linux_Drivers-20220121.zip
+
 5.5.0_P=6ebb33bdaccaeadff0c85aab27acf35723df00d8
 5.5.0_O=c38d2a74f762a792046f3d3c377827b08aade513
 5.5.0_R=0fe77668f5d9a31a5d10449988c3d8fb8dc475c5
