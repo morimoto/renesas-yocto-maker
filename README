@@ -39,6 +39,17 @@
 	limitations under the License.
 
 ----------------------
+* Prepare
+----------------------
+
+	You need many tools to compible Yocto.
+	You can find and use tool-installer.xxx under script.
+	You should belong to "sudo" user.
+
+	ex) for Ubuntu
+		> ./script/tool-installer.ubuntu
+
+----------------------
 * How to use ?
 ----------------------
 
