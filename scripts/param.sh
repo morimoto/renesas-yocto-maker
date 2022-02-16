@@ -66,7 +66,7 @@ if [ $? != 0 ]; then
 fi
 
 # ADAS check
-if [[ x${FLAG_ADAS} = x1 && ! ${TARGET} =~ "ulcb" ]]; then
+if [[ x${FLAG_ADAS} = x1 && ! ${TARGET} =~ "h3ulcb" && ! ${TARGET} =~ "m3ulcb" ]]; then
 	error "${TARGET} can't use -a (ADAS) option "
 	exit 1
 fi
@@ -80,8 +80,8 @@ if [ x${FLAG_MMP} = x1 ]; then
 		exit 1
 	fi
 
-	if [[ ! ${TARGET} =~ "h3" && \
-	      ! ${TARGET} =~ "m3" ]]; then
+	if [[ ! ${TARGET} =~ "h3ulcb" && \
+	      ! ${TARGET} =~ "m3ulcb" ]]; then
 		error "H3/M3 only supports -m (MMP) option"
 		exit 1
 	fi
