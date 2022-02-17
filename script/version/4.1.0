@@ -1,0 +1,7 @@
+POKY=5e1f52edb7a9f790fb6cb5d96502f3690267c1b1
+OPEN=9e60d30669a2ad0598e9abf0cd15ee06b523986b
+RENE=f6ccae7cfb669937aac221ff5cb6a13b36eff951
+RCAR=origin/v4.1.0 
+
+# ${TOP}/yocto/meta-renesas/meta-rcar-gen3/docs/sample/conf/
+#BOARD: ebisu  h3ulcb  m3nulcb  m3ulcb  salvator-x

@@ -1,0 +1,5 @@
+sudo yum install gawk make wget tar bzip2 gzip python unzip perl patch \
+     diffutils diffstat git cpp gcc gcc-c++ glibc-devel texinfo chrpath \
+     ccache perl-Data-Dumper perl-Text-ParseWords perl-Thread-Queue socat \
+     SDL-devel xterm python-crypto cpio python python3 python3-pip python3-pexpect \
+     ghc-lzma-conduit iputils openssl
