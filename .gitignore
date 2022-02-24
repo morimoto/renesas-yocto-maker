@@ -1,9 +1,5 @@
-/build
-/meta-*
-/poky/
 /yocto/
 /yocto-*.tar.bz2
-/package/*/*.zip
-/package/*/unzip
+/package/*
 /script/__pycache__/
 /script/board/__pycache__/

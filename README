@@ -50,49 +50,6 @@
 		> ./script/tool-installer.ubuntu
 
 ----------------------
-* How to use ?
-----------------------
-
-	yocto-make [-bseam] version target
-
-	-b	: create yocto-${version}-${target}-${date}-bin.tar.bz2
-	-s	: create yocto-${version}-${target}-${date}-src.tar.bz2
-	-e	: create yocto-${version}-${target}-${date}-env.tar.bz2
-	-a	: Enable ADAS if target board is supporting it.
-		  see below "ADAS"
-	-m	: Enable MMP if target board is supporting it.
-		  see below "MMP"
-	version	: 5.9.0
-		  5.5.0
-		  5.1.0
-		  4.7.0
-		  4.1.0
-	target	: create target. depends on each versions
-
-	ex)
-		yocto-make -b -s 5.1.0 h3ulcb
-
-**  Note
-
-	We can reuse the "build" when new version was released.
-	But, something strange might be included if -b, -s, -e options were used.
-	Removing build/tmp/deploy is better idea.
-
-** ADAS
-
-	-a option is enabled if it was for StarterKit/Kingfisher for now.
-
-** MMP
-
-	You need to have nessesary packages.
-	The graphics and multimedia acceleration packages for the R-Car Gen3
-	board BSP can be downloaded from
-
-		https://www.renesas.com/us/en/application/automotive/r-car-h3-m3-documents-software
-
-	You need to have packages in package/${VER}
-
-----------------------
 * How to flash to board ?
 ----------------------
 

@@ -7,7 +7,4 @@
 #===============================
 TOP=`readlink -f "$0" | xargs dirname`
 
-${TOP}/scripts/checkout.sh	$@
-[ $? != 0 ] && exit 1
-
-${TOP}/scripts/make.sh		$@
+${TOP}/script/guide.py
