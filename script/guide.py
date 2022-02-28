@@ -208,7 +208,6 @@ class guide(base):
         while True:
             if (os.path.exists(self.package_dir(True))):
                 break
-            self.msg("{} not exists".format(self.package_dir()))
             for how_to in self.package_how_to_step:
                 self.msg(how_to)
                 self.ask_yn(True)

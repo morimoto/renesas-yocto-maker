@@ -18,12 +18,15 @@ class guide(guide.guide):
 
         self.package_how_to_step = [
             # Step0
-            "You need to prepare package by yourself,\n"\
-            "and this command can't confirm it.\n"\
-            "This script shows the procedure after <y>.",
+            "[STEP0]\n"\
+            "You need to prepare necessary package (3D Graphics / MultiMedia)\n"\
+            "by yourself, unfortunately this command can't help you.\n"\
+            "It will indicate how to prepare package for you.\n"\
+            "  [STEP1] How to get package.\n"\
+            "  [STEP2] How to set up package.",
 
             # Step1
-            "[STEP1]\n"\
+            "[STEP1] How to get package.\n\n"\
             "You need to download package from elinux page.\n"\
             "https://elinux.org/R-Car/Boards/Yocto-Gen3/v{}#Required_packages\n".format(self.__version) +\
             "                                           ^^^^^^^\n"\
@@ -32,7 +35,8 @@ class guide(guide.guide):
             "R-Car_Gen3_Series_Evaluation_Software_Package_of_Linux_Drivers-xxx.zip",
 
             # Step3
-            "[STEP2]\n"\
+            "[STEP2] How to set up package\n\n"\
+            "Open other terminal, and run below\n\n"\
             "Create package folder and unzip these.\n\n"\
             "  > mkdir -p ${{renesas-yocto-maker}}/{0}\n"\
             "  > cd       ${{renesas-yocto-maker}}/{0}\n"\

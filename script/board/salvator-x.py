@@ -17,18 +17,22 @@ class guide(guide.guide):
 
         self.package_how_to_step = [
             # Step0
-            "You need to prepare package by yourself,\n"\
-            "and this command can't confirm it.\n"\
-            "This script shows the procedure.",
+            "[STEP0]\n"\
+            "You need to prepare necessary package (3D Graphics / MultiMedia)\n"\
+            "by yourself, unfortunately this command can't help you.\n"\
+            "It will indicate how to prepare package for you.\n"\
+            "  [STEP1] How to get package.\n"\
+            "  [STEP2] How to set up package.",
 
             # Step1
-            "[STEP1]\n"\
+            "[STEP1] How to get package.\n\n"\
             "Contact to [Renesas Sales team] or\n"\
             "[Renesas appointed store Sales team]\n"\
             "and get necessary packages.",
 
             # Step2
-            "[STEP2]\n"\
+            "[STEP2] How to set up package\n\n"\
+            "Open other terminal, and run below\n\n"\
             "Create package folder and copy these.\n\n"\
             "  > mkdir -p         ${{renesas-yocto-maker}}/{0}\n"\
             "  > cp <zip_package> ${{renesas-yocto-maker}}/{0}\n"\
