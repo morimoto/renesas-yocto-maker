@@ -50,6 +50,15 @@
 		> ./script/tool-installer.ubuntu
 
 ----------------------
+* How to use ?
+----------------------
+
+	run yocto-maker, and follow the questions
+
+		> cd ${renesas-yocto-maker}
+		> ./yocto-maker
+
+----------------------
 * How to flash to board ?
 ----------------------
 
