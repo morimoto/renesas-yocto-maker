@@ -66,6 +66,7 @@ wait
 for ((i = 0; i < ${#LIST_DIR[@]}; i++)) {
 	(
 		cd ./${LIST_DIR[$i]}
-		git checkout ${LIST_CMT[$i]}
+		printf "%18s : %s\n" "${LIST_DIR[$i]}" "${LIST_CMT[$i]}"
+		git checkout -q ${LIST_CMT[$i]}
 	)
 }
