@@ -16,11 +16,6 @@ OUT_DIR=${BOARD}-${VER}
 NAME="yocto-${VER}-${BOARD}${SUFFIX}-"`date +%Y%m%d`
 
 #
-# create output dir and script
-#
-mkdir -p ${TOP}/yocto/${OUT_DIR}
-
-#
 # checkout
 #
 OPTION=""
@@ -30,23 +25,26 @@ fi
 
 ${TOP}/script/checkout.sh ${OPTION} ${VER}
 
-#
-# Start Poky
-#
 cd ${TOP}/yocto
-. ./poky/oe-init-build-env ${OUT_DIR}
-
-# Now PWD = ${OUT_DIR}
 
 #
-# copy META_DIR confs
+# create output dir and conf
+# and copy META_DIR conf
 #
-cp -fr ../${META_DIR}/*.conf ./conf/
+mkdir -p ${OUT_DIR}/conf
+cp -fr ${META_DIR}/*.conf ${OUT_DIR}/conf/
 
 # my_conf is edited by user
 # see
 #	guide.build_script_setup()
-cp ./my_conf ./conf/local.conf
+cp ${OUT_DIR}/my_conf ${OUT_DIR}/conf/local.conf
+
+#
+# Start Poky
+#
+. ./poky/oe-init-build-env ${OUT_DIR}
+
+# Now PWD = ${OUT_DIR}
 
 [ x${FLAG_SRC}	!= x   ] && cat ../../script/src_conf >> ./conf/local.conf
 [ x${LAYER}	!= x   ] && bitbake-layers add-layer ../${LAYER}
