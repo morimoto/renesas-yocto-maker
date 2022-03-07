@@ -278,8 +278,12 @@ class guide(base):
                  "   build.sh : build Yocto\n"\
                  "   clean.sh : clean file/folders\n"\
                  "   my_conf  : setting file\n\n"\
-                 "You can whenever run/edit it by yourself.\n" + msg +\
-                 "\n\nDo you want to build.sh now ?")
+                 "You can whenever run/edit it by yourself.\n" + msg)
+        self.ask_yn()
+
+        if (msg):
+            msg = "\n(my_conf editing should be done if needed)"
+        self.msg("Do you want to build.sh now ?" + msg)
 
         if (self.ask_yn()):
             self.system(self.build_sh(True))
