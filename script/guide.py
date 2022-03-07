@@ -237,12 +237,13 @@ class guide(base):
         #
         self.system("{}/script/checkout.sh {}".format(self.top(), self.__version))
 
-        # copy meta file to my_conf
+        # copy meta file to my_conf and specify DL_DIR on it.
         # see
         #	script/build.sh
         self.system("mkdir -p {}".format(self.build_dir()))
-        self.system("cp {}/yocto/{}/{} {}".format(self.top(), meta_dir, conf_file,
-                                                  self.my_conf(True)))
+        num = self.run("grep -n \"^#DL_DIR\" {}/yocto/{}/{} | cut -d \":\" -f 1".format(self.top(), meta_dir, conf_file))
+        self.system("cat {}/yocto/{}/{} | sed {}a\"DL_DIR = \\\"\\${{TOPDIR}}/../downloads\\\"\" > {}".format(
+            self.top(), meta_dir, conf_file, num, self.my_conf(True)))
 
         with open(self.build_sh(True), mode="w") as f:
             f.write("#! /bin/bash\n")
