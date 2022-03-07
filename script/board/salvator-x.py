@@ -69,7 +69,7 @@ class guide(guide.guide):
         my_conf_msg	= ""
         if (self.__board == "salvator-x"):
             my_conf_msg = "You need to select SoC family.\n"\
-                           "Please find and edit [SOC_FAMILY]"
+                           "Please find and edit [SOC_FAMILY] on my_conf"
 
         #
         # ask package
@@ -110,8 +110,7 @@ class guide(guide.guide):
 
             my_conf_msg		+= "It already have default multimedia feature settings,\n"\
                                    "but you can add extra optional features if you want.\n"\
-                                   "Please find and edit [DISTRO_FEATURES_append]\n"\
-                                   "on above setting file."
+                                   "Please find and edit [DISTRO_FEATURES_append] on my_conf."
 
         # add other options
         o = self.ask_tar_option()

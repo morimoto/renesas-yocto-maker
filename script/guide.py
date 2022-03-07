@@ -230,7 +230,7 @@ class guide(base):
             # remove old build.sh
             os.remove(self.build_sh(True))
 
-    def build_script_setup(self, image, meta_dir, conf_file, configs, msg = None):
+    def build_script_setup(self, image, meta_dir, conf_file, configs, msg = ""):
         #
         # checkout target version of yocto to copy conf_file.
         # checkout.sh can use -r option, but it is not needed so far.
@@ -245,6 +245,7 @@ class guide(base):
         self.system("cat {}/yocto/{}/{} | sed {}a\"DL_DIR = \\\"\\${{TOPDIR}}/../downloads\\\"\" > {}".format(
             self.top(), meta_dir, conf_file, num, self.my_conf(True)))
 
+        # create build.sh
         with open(self.build_sh(True), mode="w") as f:
             f.write("#! /bin/bash\n")
             f.write("#\n")
@@ -262,18 +263,24 @@ class guide(base):
             f.write(". ${TOP}/script/build.sh\n")
         os.chmod(self.build_sh(True), 0o755)
 
-        if (msg):
-            self.msg("You can/need to edit config file by yourself.\n"\
-                     "Unfortunately, this script can't do it for you.\n"\
-                     "Please edit below file (it will be used as local.conf).\n\n" +\
-                     "   ${{renesas-yocto-maker}}/{}\n\n".format(self.my_conf()) + msg)
-            self.ask_yn()
+        # create clean.sh
+        self.system("ln -sf ../../script/clean.sh {}".format(self.build_dir(True)))
 
-        self.msg("The work dir is [{}]\n".format(self.build_dir()) +\
-                 "and it created build script as below.\n\n" +\
-                 "  ${{renesas-yocto-maker}}/{}\n\n".format(self.build_sh()) +\
-                 "You can whenever run it by yourself.\n"\
-                 "Do you want to run it now ?")
+        if (msg):
+            msg = "\n"\
+                  "You can/need to edit my_conf file by yourself.\n"\
+                  "Unfortunately, this script can't do it for you.\n"\
+                  "my_conf will be used as local.conf.\n\n" +  msg
+
+        self.msg("The work dir is\n\n"\
+                 "   ${{renesas-yocto-maker}}/{}\n\n".format(self.build_dir()) +\
+                 "It created below files for you.\n\n"\
+                 "   build.sh : build Yocto\n"\
+                 "   clean.sh : clean file/folders\n"\
+                 "   my_conf  : setting file\n\n"\
+                 "You can whenever run/edit it by yourself.\n" + msg +\
+                 "\n\nDo you want to build.sh now ?")
+
         if (self.ask_yn()):
             self.system(self.build_sh(True))
 

@@ -126,8 +126,7 @@ class guide(guide.guide):
             name_suffix		+= "+mmp"
             my_conf_msg		=  "It already have default multimedia feature settings,\n"\
                                    "but you can add extra optional features if you want.\n"\
-                                   "Please find and edit [DISTRO_FEATURES_append]\n"\
-                                   "on above setting file."
+                                   "Please find and edit [DISTRO_FEATURES_append] on my_conf."
             confirm		+= "\noption:       use MultiMedia package"
 
         # add other options
