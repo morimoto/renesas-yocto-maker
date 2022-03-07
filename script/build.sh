@@ -60,7 +60,7 @@ bitbake ${IMAGE}
 
 if [ x${FLAG_BIN} != x ]; then
 	NAME_BIN="${NAME}-bin"
-	echo "create ${NAME_BIN}.tar.bz2"
+	echo "create yocto/${OUT_DIR}/${NAME_BIN}.tar.bz2"
 
 	ln -s ./tmp/deploy/images/${BOARD} ${NAME_BIN}
 	tar -jchf ${NAME_BIN}.tar.bz2 ${NAME_BIN}
@@ -69,7 +69,7 @@ fi
 
 if [ x${FLAG_SRC} != x ]; then
 	NAME_SRC="${NAME}-src"
-	echo "create ${NAME_SRC}.tar.bz2"
+	echo "create yocto/${OUT_DIR}/${NAME_SRC}.tar.bz2"
 
 	# see script/src_conf :: ARCHIVER_MODE
 	# It is assuming "patched"
@@ -83,7 +83,7 @@ fi
 
 if [ x${FLAG_ENV} != x ]; then
 	NAME_ENV="${NAME}-env"
-	echo "create ${NAME_ENV}.tar.bz2"
+	echo "create yocto/${OUT_DIR}/${NAME_ENV}.tar.bz2"
 
 	# FIXME
 	# How detail is needed ??
