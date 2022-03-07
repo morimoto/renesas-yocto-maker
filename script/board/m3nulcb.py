@@ -44,10 +44,10 @@ class guide(board.h3ulcb.guide):
             "  > cp <zip_package> ${{renesas-yocto-maker}}/{0}\n"\
             "                                                  ^^^^^^^^^^^^\n"\
             "  > ls ${{renesas-yocto-maker}}/{0}  (sample)\n"\
-            "  RTM8RC7795ZG300Q10JPL3E_xxx.zip     RTM8RC0000ZAE1LQ00JPL3E_xxx.zip  RTM8RC0000ZMX0LQ00JPL3E_xxx.zip"
-            "  RTM8RC7796ZG300Q10JPL3E_xxx.zip     RTM8RC0000ZMD0LQ00JPL3E_xxx.zip  RTM8RC0000ZND1LQ00JPL3E_xxx.zip"\
-            "  LICENSE.TXT                         RTM8RC0000ZMD1LQ00JPL3E_xxx.zip  RTM8RC0000ZNE1LQ00JPL3E_xxx.zip"\
-            "  RCH3G001L5101ZDO_xxx.zip            RTM8RC0000ZME0LQ00JPL3E_xxx.zip  RTM8RC0000ZNX0LQ00JPL3E_xxx.zip"\
-            "  RCM3G001L5101ZDO_xxx.zip            RTM8RC0000ZME1LQ00JPL3E_xxx.zip  readme.txt"\
-            "  RTM8RC0000ZAD1LQ00JPL3E_xxx.zip     RTM8RC0000ZMX0DQ00JFL3E_xxx.zip".format(self.package_dir()),
+            "  RCH3G001L5101ZDO_xxx.zip            RTM8RC0000ZMX0LQ00JPL3E_xxx.zip  RTM8RC0000ZNX0LQ00JPL3E_xxx.zip\n"\
+            "  RCM3G001L5101ZDO_xxx.zip            RTM8RC0000ZMD0LQ00JPL3E_xxx.zip  RTM8RC0000ZND1LQ00JPL3E_xxx.zip\n"\
+            "  RTM8RC7796ZG300Q10JPL3E_xxx.zip     RTM8RC0000ZMD1LQ00JPL3E_xxx.zip  RTM8RC0000ZNE1LQ00JPL3E_xxx.zip\n"\
+            "  RTM8RC7795ZG300Q10JPL3E_xxx.zip     RTM8RC0000ZME0LQ00JPL3E_xxx.zip\n"\
+            "  RTM8RC0000ZAD1LQ00JPL3E_xxx.zip     RTM8RC0000ZME1LQ00JPL3E_xxx.zip\n"\
+            "  RTM8RC0000ZAE1LQ00JPL3E_xxx.zip     RTM8RC0000ZMX0DQ00JFL3E_xxx.zip".format(self.package_dir()),
             ]
