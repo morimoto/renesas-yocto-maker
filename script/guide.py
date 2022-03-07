@@ -294,12 +294,6 @@ class guide(base):
                  ret += "FLAG_SRC=1\n"
                  con += "\noption:       create src.tar.bz2"
 
-        self.msg("Do you want to create env.tar.bz2 from it ?\n"
-                 "(Archive file for Yocto Environment files)")
-        if (self.ask_yn(default="n")):
-                 ret += "FLAG_ENV=1\n"
-                 con += "\noption:       create env.tar.bz2"
-
         return ret, con
 
     #--------------------

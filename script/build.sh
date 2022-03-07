@@ -80,23 +80,3 @@ if [ x${FLAG_SRC} != x ]; then
 	tar -jchf ${NAME_SRC}.tar.bz2 ${NAME_SRC}
 	rm -fr ${NAME_SRC}
 fi
-
-if [ x${FLAG_ENV} != x ]; then
-	NAME_ENV="${NAME}-env"
-	echo "create yocto/${OUT_DIR}/${NAME_ENV}.tar.bz2"
-
-	# FIXME
-	# How detail is needed ??
-
-	mkdir -p ${NAME_ENV}/build
-	ln -s ../../conf		./${NAME_ENV}/build
-	ln -s ../../downloads		./${NAME_ENV}/build
-	ln -s ../../poky		./${NAME_ENV}
-	ln -s ../../meta-openembedded	./${NAME_ENV}
-	ln -s ../../meta-renesas	./${NAME_ENV}
-	if [ x${FLAG_META_RCAR} != x ]; then
-		ln -s ../../meta-rcar	./${NAME_ENV}
-	fi
-	tar -jchf ${NAME_ENV}.tar.bz2 ${NAME_ENV}
-	rm -fr ${NAME_ENV}
-fi
