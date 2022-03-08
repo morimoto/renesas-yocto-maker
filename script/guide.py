@@ -280,7 +280,9 @@ class guide(base):
             msg = "\n"\
                   "You can/need to edit my_conf file by yourself.\n"\
                   "Unfortunately, this script can't do it for you.\n"\
-                  "my_conf will be used as local.conf.\n\n" +  msg
+                  "my_conf will be used as local.conf.\n"\
+                  "You can see the document at\n"\
+                  "  ${renesas-yocto-maker}/yocto/meta-renesas/meta-rcar-gen3/README.proprietary.md\n\n" +  msg
 
         self.msg("The work dir is\n\n"\
                  "   ${{renesas-yocto-maker}}/{}\n\n".format(self.build_dir()) +\
