@@ -220,15 +220,25 @@ class guide(base):
     # build_script_setup
     #--------------------
     def build_script_check(self):
-        if (os.path.exists(self.build_sh(True))):
-            self.msg("You already have build script of {} for Yocto {}\n".format(self.__board, self.__version) +\
-                     "(${{renesas-yocto-maker}}/{})\n\n".format(self.build_sh()) +\
-                     "You can build it with prevous settings by this script.\n"\
-                     "But, do you want to re-setup it ?")
-            self.ask_yn(True)
+        if (not os.path.exists(self.build_sh(True))):
+            return
 
+        self.msg("You already have build script of {} for Yocto {}\n".format(self.__board, self.__version) +\
+                 "(${{renesas-yocto-maker}}/{})\n\n".format(self.build_sh()) +\
+                 "But, do you want remove previous settings and re-setup it ?")
+        if (self.ask_yn()):
             # remove old build.sh
             os.remove(self.build_sh(True))
+            return
+
+        self.msg("Do you want to build Yocto {} for {} immediately ?".format(self.__version, self.__board))
+        if (self.ask_yn()):
+            sys.exit(self.system(self.build_sh(True)))
+
+        self.msg("You can edit config file and run build script by yourself any time.\n"\
+                 "  (${{renesas-yocto-maker}}/{})\n".format(self.my_conf()) +\
+                 "  (${{renesas-yocto-maker}}/{})".format(self.build_sh()))
+        sys.exit(0)
 
     def build_script_setup(self, image, meta_dir, conf_file, configs, msg = ""):
         #
