@@ -50,8 +50,13 @@ cp ${OUT_DIR}/my_conf ${OUT_DIR}/conf/local.conf
 [ x${LAYER}	!= x   ] && bitbake-layers add-layer ../${LAYER}
 if [ x${DIR_FOR_COPY} != x ]; then
 	(
+		if [ ! -d ${TOP}/package/${OUT_DIR} ]; then
+			echo "no package/${OUT_DIR}"
+			exit 1
+		fi
+
 		cd ${TOP}/yocto/${DIR_FOR_COPY}
-		${TOP}/yocto/${COPY_SCRIPT} -f ${TOP}/${PACKAGE_DIR}
+		${TOP}/yocto/${COPY_SCRIPT} -f ${TOP}/package/${OUT_DIR}
 	)
 fi
 
