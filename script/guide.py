@@ -284,7 +284,8 @@ class guide(base):
 
         if (msg):
             msg = "\n"\
-                  "You can/need to edit my_conf file by yourself.\n"\
+                  "my_conf has default settings, but you can edit it by\n"\
+                  "yourself via other terminal or editor.\n\n"\
                   "Unfortunately, this script can't do it for you.\n"\
                   "my_conf will be used as local.conf.\n"\
                   "You can see the document at\n"\
