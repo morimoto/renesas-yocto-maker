@@ -302,7 +302,7 @@ class guide(base):
 
         if (msg):
             msg = "\n(my_conf editing should be done if needed)"
-        self.msg("Do you want to build.sh now ?" + msg)
+        self.msg("Do you want to run build.sh now ?" + msg)
 
         if (self.ask_yn()):
             self.system(self.build_sh(True))
