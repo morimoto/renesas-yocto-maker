@@ -131,6 +131,12 @@ class base:
                     return 0
 
     #--------------------
+    # enter
+    #--------------------
+    def enter(self):
+        self.input("push Enter Key")
+
+    #--------------------
     # error
     #--------------------
     def error(self, text, quit=1):
@@ -142,7 +148,7 @@ class base:
         if (quit):
             sys.exit(1)
         else:
-            self.ask_yn()
+            self.enter()
 
     #--------------------
     # msg
@@ -291,7 +297,7 @@ class guide(base):
                  "   clean.sh : clean file/folders\n"\
                  "   my_conf  : setting file\n\n"\
                  "You can whenever run/edit it by yourself.\n" + msg)
-        self.ask_yn()
+        self.enter()
 
         if (msg):
             msg = "\n(my_conf editing should be done if needed)"
